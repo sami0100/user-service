@@ -3,7 +3,7 @@ name: user-service CI/CD
 on:
   push:
     branches:
-      - 'master'  # Ensure this matches the actual branch name
+      - 'master'
   pull_request:
     branches:
       - 'master'
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./user-service  # Corrected path to the user-service folder
+        working-directory: ./user-service  # Pointing to user-service correctly
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
