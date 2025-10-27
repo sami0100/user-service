@@ -1,11 +1,12 @@
 name: user-service CI/CD
+
 on:
   push:
-    paths:
-      - 'user-service/**'
+    branches:
+      - 'master'  # Make sure this matches the actual branch name
   pull_request:
-    paths:
-      - 'user-service/**'
+    branches:
+      - 'master'  # Same here
 
 jobs:
   ci:
@@ -24,7 +25,7 @@ jobs:
         run: docker build -t user-service:ci .
 
   cd:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'  # Trigger CD for master branch
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
