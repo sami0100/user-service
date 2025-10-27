@@ -26,7 +26,7 @@ jobs:
 
   cd:
     if: github.ref == 'refs/heads/master'  # Trigger on master branch only
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Use GitHub's cloud runner
     steps:
       - uses: actions/checkout@v4
       - name: Deploy with docker compose
