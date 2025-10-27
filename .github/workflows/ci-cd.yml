@@ -22,7 +22,7 @@ jobs:
       - run: npm ci || npm i  # Install dependencies
       - run: npm test         # Run tests
       - name: Build Docker image
-        run: docker build -t user-service:ci .
+        run: docker-compose -f docker-compose.yml build  # Build using Docker Compose
 
   cd:
     if: github.ref == 'refs/heads/master'  # Trigger on master branch only
@@ -31,5 +31,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Deploy with docker compose
         run: |
-          docker compose pull || true
-          docker compose up -d --build
+          docker-compose -f docker-compose.yml pull  # Pull the latest images
+          docker-compose -f docker-compose.yml up -d --build  # Build and start the services
