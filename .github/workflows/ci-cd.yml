@@ -1,0 +1,34 @@
+name: user-service CI/CD
+on:
+  push:
+    paths:
+      - 'user-service/**'
+  pull_request:
+    paths:
+      - 'user-service/**'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: user-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci || npm i
+      - run: npm test
+      - name: Build Docker image
+        run: docker build -t user-service:ci .
+
+  cd:
+    if: github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy with docker compose
+        run: |
+          docker compose pull || true
+          docker compose up -d --build
