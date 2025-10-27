@@ -3,17 +3,17 @@ name: user-service CI/CD
 on:
   push:
     branches:
-      - 'master'  # Trigger on push to master
+      - 'master'
   pull_request:
     branches:
-      - 'master'  # Trigger on pull requests to master
+      - 'master'
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./  # Ensure this is the root of user-service (the current directory)
+        working-directory: ./  # Root directory (where docker-compose.yml is located)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,7 +22,7 @@ jobs:
       - run: npm ci || npm i  # Install dependencies
       - run: npm test         # Run tests
       - name: Build Docker image
-        run: docker-compose -f docker-compose.yml build  # Build using Docker Compose
+        run: docker-compose -f docker-compose.yml build  # Use the existing docker-compose.yml
 
   cd:
     if: github.ref == 'refs/heads/master'  # Trigger on master branch only
