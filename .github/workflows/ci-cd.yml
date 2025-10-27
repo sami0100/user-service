@@ -3,29 +3,29 @@ name: user-service CI/CD
 on:
   push:
     branches:
-      - 'master'
+      - 'master'  # Trigger on push to master
   pull_request:
     branches:
-      - 'master'
+      - 'master'  # Trigger on pull requests to master
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./user-service  # Pointing to user-service correctly
+        working-directory: ./  # Ensure this is the root of user-service (the current directory)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm ci || npm i
-      - run: npm test
+      - run: npm ci || npm i  # Install dependencies
+      - run: npm test         # Run tests
       - name: Build Docker image
         run: docker build -t user-service:ci .
 
   cd:
-    if: github.ref == 'refs/heads/master'  # Trigger CD for master branch
+    if: github.ref == 'refs/heads/master'  # Trigger on master branch only
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
