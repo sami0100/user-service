@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./  # Ensure it's the root directory where docker-compose.yml is located
+        working-directory: ./  # Root directory where docker-compose.yml is located
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,7 +21,7 @@ jobs:
           node-version: '20'
       - run: npm ci || npm i  # Install dependencies
       - run: npm test         # Run tests
-      - name: Build Docker image
+      - name: Build Docker image using docker-compose
         run: docker-compose -f docker-compose.yml build  # Build using the docker-compose.yml in the root
 
   cd:
